@@ -14,14 +14,15 @@ public class PassengerEvent implements Event {
 
 
 	public void run() {
-		/* create a new Passenger at the correct pickupIsland and add it to the correct queue */
-		Passenger passenger = new Passenger(island);
-		FerrySim.islands[island].add(passenger);
 
 		/* add a new PassengerEvent to our agenda for the same island at a time
 		that is a random number between 5 and 10 (inclusive) */
 		interval = intRandomInterval(5, 10);
 		FerrySim.agenda.add(new PassengerEvent(island), interval);
+
+		/* create a new Passenger at the correct pickupIsland and add it to the correct queue */
+		Passenger passenger = new Passenger(island);
+		FerrySim.islands[island].add(passenger);
 
 		System.out.println("Passenger Event Island: " + island +
 				", Time is:" + FerrySim.agenda.getCurrentTime() + ", Next Passenger in: " + interval);
