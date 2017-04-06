@@ -23,10 +23,11 @@ public class Passenger {
 
 		/* select a random drop off island that isn’t pickupIsland */
 		Random randomGenerator = new Random();
-		while (this.dropoffIsland != this.pickupIsland) {
+
+		do {
 			/* generate a random integer in the range 0..2 */
 			this.dropoffIsland = randomGenerator.nextInt(3);
-		}
+		} while (this.dropoffIsland == this.pickupIsland);
 	}
 
 	private int pickupIsland;

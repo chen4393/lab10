@@ -17,6 +17,8 @@ public class FerrySim {
 		agenda.add(new PassengerEvent(1), 1);
 		agenda.add(new PassengerEvent(2), 2);
 
+		agenda.add(new FerryEvent(0), 60);
+
 		while (agenda.getCurrentTime() <= 10000) {
 			agenda.remove().run();
 		}
