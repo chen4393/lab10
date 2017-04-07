@@ -10,6 +10,7 @@ public class Ferry {
 	public boolean addPassenger(Passenger p) {
 		if (!isFull()) {
 			list.add(p);
+			//System.out.println("Add " + p);
 			return true;
 		} else {
 			return false;
@@ -17,18 +18,27 @@ public class Ferry {
 	}
 
 	public Passenger[] removePassengersAtIsland(int island) {
+		//System.out.println("list.size before removePassengersAtIsland: " + list.size());
 		ArrayList<Passenger> tempList = new ArrayList<Passenger>();
+		//int initialListSize = list.size();
 		for (int i = 0; i < list.size(); i++) {
 			Passenger tempPassenger = list.get(i);
 			if (tempPassenger.getDropoffIsland() == island) {
-				list.remove(tempPassenger);
+				//list.remove(tempPassenger);
 				tempList.add(tempPassenger);
 			}
 		}
+
+		for (int i = 0; i < tempList.size(); i++) {
+			Passenger tempPassenger = tempList.get(i);
+			list.remove(tempPassenger);
+		}
+
 		Passenger[] result = new Passenger[tempList.size()];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = tempList.get(i);
 		}
+		//System.out.println("list.size after removePassengersAtIsland: " + list.size());
 		return result;
 	}
 
@@ -37,10 +47,11 @@ public class Ferry {
 	}
 
 	public Ferry() {
-		list = new ArrayList<Passenger>(60);
+		list = new ArrayList<Passenger>();
 	}
 
 	public int getSize() {
 		return list.size();
 	}
+
 }

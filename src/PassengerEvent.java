@@ -5,7 +5,7 @@
 public class PassengerEvent implements Event {
 
 	/* the island that this PassengerEvent will make Passenger Objects for */
-	private int island;
+	private int island;// pickupIsland
 	private int interval;
 
 	public PassengerEvent(int island) {

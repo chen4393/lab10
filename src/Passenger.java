@@ -28,8 +28,15 @@ public class Passenger {
 			/* generate a random integer in the range 0..2 */
 			this.dropoffIsland = randomGenerator.nextInt(3);
 		} while (this.dropoffIsland == this.pickupIsland);
+
+		//System.out.println(this);
 	}
 
 	private int pickupIsland;
 	private int dropoffIsland;
+
+	public String toString() {
+		String s = "pickupIsland: " + pickupIsland + ", dropoffIsland: " + dropoffIsland;
+		return s;
+	}
 }

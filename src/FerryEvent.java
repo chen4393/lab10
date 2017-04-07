@@ -11,27 +11,42 @@ public class FerryEvent implements Event {
 	/* the Ferry object that we will remove and board passengers on */
 	private Ferry ship;
 
-	public FerryEvent(int island) {
+	public FerryEvent(int island, Ferry ship) {
 	    this.island = island;
-	    ship = new Ferry();
+	    this.ship = ship;
     }
 
 	public void run() {
 
-		/* remove all Passengers that want to get off at
-		our current island */
-		getShip().removePassengersAtIsland(getIsland());
+        Stat.updateTotalNumWaitFerry(FerrySim.islands[island].length());
+
+		/* remove all Passengers that want to get off at our current island */
+		Passenger[] arrived = getShip().removePassengersAtIsland(getIsland());
+
+		Stat.updateTotalNumArrived(arrived.length);
 
 		/* board new Passengers */
-		for (int i = 0; i < FerrySim.islands[island].length(); i++) {
+        //System.out.println("num of passengers waiting at island: " + FerrySim.islands[island].length());
+        int initialIslandQSize = FerrySim.islands[island].length();
+        for (int i = 0; i < initialIslandQSize; i++) {
 			Passenger p = (Passenger) FerrySim.islands[island].remove();
-			if (!getShip().addPassenger(p)) {
+            boolean isAddSuccess = getShip().addPassenger(p);
+            //System.out.println(isAddSuccess);
+            if (!isAddSuccess) {
 				break;
 			}
 		}
 
+        //System.out.println("list size after board new Passengers: " + getShip().getSize());
+
+        Stat.updateAccumNumOnFerry(getShip().getSize());
+
+		Stat.updateNumDeparture();
+
 		/* move our ferry to the next island */
 		int interval = 60;
+        System.out.println("Ferry Event Island: " + island +
+                ", Time is: " + FerrySim.agenda.getCurrentTime() + ", Next Ferry in: " + interval);
 		Random randomGenerator = new Random();
 		int nextIsland = randomGenerator.nextInt(3);
 
@@ -42,10 +57,10 @@ public class FerryEvent implements Event {
 		setIsland(nextIsland);
 
 		/* add a new PassengerEvent to our agenda */
-		FerrySim.agenda.add(new FerryEvent(island), interval);
+		FerrySim.agenda.add(new FerryEvent(island, ship), interval);
 
         System.out.println("Ferry Event Island: " + island +
-                ", Time is:" + FerrySim.agenda.getCurrentTime() + ", Next Ferry in: " + interval);
+                ", Time is: " + FerrySim.agenda.getCurrentTime() + ", Next Ferry in: " + interval);
 	}
 
 	public void setIsland(int island) {
